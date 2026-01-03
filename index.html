@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Fingerprinting - PoC par Mehdi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔴 ANALYSE EN COURS...</h1>
+            <p class="subtitle">Votre navigateur révèle plus que vous ne pensez</p>
+        </header>
+
+        <div class="warning-banner">
+            <span class="pulse"></span>
+            <p>⚠️ Cette page collecte des informations SANS votre permission explicite</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="dataPoints">0</div>
+                <div class="stat-label">Points de données collectés</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="uniqueId">Calcul...</div>
+                <div class="stat-label">Empreinte unique</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="trackable">Calculable</div>
+                <div class="stat-label">Traçabilité</div>
+            </div>
+        </div>
+
+        <div class="data-sections">
+            <!-- Section Identité -->
+            <div class="data-section" id="identity-section">
+                <h2>👤 Identité Numérique</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Adresse IP</span>
+                        <span class="value" id="ip">Extraction...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Localisation</span>
+                        <span class="value" id="location">Géolocalisation...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">FAI / Organisation</span>
+                        <span class="value" id="isp">Analyse...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Timezone</span>
+                        <span class="value" id="timezone">Détection...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Système -->
+            <div class="data-section" id="system-section">
+                <h2>💻 Configuration Système</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Système d'exploitation</span>
+                        <span class="value" id="os">Analyse...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Navigateur</span>
+                        <span class="value" id="browser">Détection...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Résolution d'écran</span>
+                        <span class="value" id="screen">Mesure...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Langue du système</span>
+                        <span class="value" id="language">Extraction...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Cookies activés</span>
+                        <span class="value" id="cookies">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Do Not Track</span>
+                        <span class="value" id="dnt">Vérification...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Matériel -->
+            <div class="data-section" id="hardware-section">
+                <h2>🔧 Détection Matérielle</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Processeur (cœurs)</span>
+                        <span class="value" id="cpu">Scan...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Mémoire (RAM)</span>
+                        <span class="value" id="ram">Estimation...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">GPU (WebGL)</span>
+                        <span class="value" id="gpu">Identification...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Écran tactile</span>
+                        <span class="value" id="touch">Détection...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Batterie</span>
+                        <span class="value" id="battery">Analyse...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Type d'appareil</span>
+                        <span class="value" id="device">Classification...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Sécurité -->
+            <div class="data-section" id="security-section">
+                <h2>🛡️ Analyse de Sécurité</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Navigation privée</span>
+                        <span class="value" id="incognito">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Extensions détectées</span>
+                        <span class="value" id="extensions">Scan...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Bloqueur de pub</span>
+                        <span class="value" id="adblock">Vérification...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">WebRTC (fuite IP)</span>
+                        <span class="value" id="webrtc">Test de fuite...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Canvas Fingerprint</span>
+                        <span class="value" id="canvas">Génération...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Fonts installées</span>
+                        <span class="value" id="fonts">Énumération...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Réseau -->
+            <div class="data-section" id="network-section">
+                <h2>🌐 Informations Réseau</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Type de connexion</span>
+                        <span class="value" id="connection">Analyse...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Vitesse estimée</span>
+                        <span class="value" id="speed">Mesure...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">IPv6 disponible</span>
+                        <span class="value" id="ipv6">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Proxy détecté</span>
+                        <span class="value" id="proxy">Vérification...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">IP locale (WebRTC)</span>
+                        <span class="value" id="local-ip">Extraction...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Ports ouverts locaux</span>
+                        <span class="value" id="ports">Scan...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Multimédia -->
+            <div class="data-section" id="media-section">
+                <h2>🎥 Périphériques Multimédia</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Caméras détectées</span>
+                        <span class="value" id="cameras">Énumération...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Microphones détectés</span>
+                        <span class="value" id="microphones">Énumération...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Haut-parleurs</span>
+                        <span class="value" id="speakers">Énumération...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Audio Fingerprint</span>
+                        <span class="value" id="audio-fp">Génération...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Voix disponibles (TTS)</span>
+                        <span class="value" id="voices">Scan...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Plugins navigateur</span>
+                        <span class="value" id="plugins">Détection...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Capteurs & Périphériques -->
+            <div class="data-section" id="sensors-section">
+                <h2>📱 Capteurs & Périphériques</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Accéléromètre</span>
+                        <span class="value" id="accelerometer">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Gyroscope</span>
+                        <span class="value" id="gyroscope">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Orientation écran</span>
+                        <span class="value" id="orientation">Détection...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Gamepad/Manette</span>
+                        <span class="value" id="gamepad">Scan...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Bluetooth disponible</span>
+                        <span class="value" id="bluetooth">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">USB disponible</span>
+                        <span class="value" id="usb">Test...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Historique & Comportement -->
+            <div class="data-section" id="behavior-section">
+                <h2>📊 Historique & Comportement</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Sites visités (LinkedIn)</span>
+                        <span class="value" id="history-linkedin">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Sites visités (Facebook)</span>
+                        <span class="value" id="history-facebook">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Sites visités (Twitter)</span>
+                        <span class="value" id="history-twitter">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Sites visités (GitHub)</span>
+                        <span class="value" id="history-github">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Presse-papier accessible</span>
+                        <span class="value" id="clipboard">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Notifications activées</span>
+                        <span class="value" id="notifications">Test...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Performance & Timing -->
+            <div class="data-section" id="performance-section">
+                <h2>⚡ Performance & Timing</h2>
+                <div class="data-grid">
+                    <div class="data-item loading">
+                        <span class="label">Temps de chargement</span>
+                        <span class="value" id="load-time">Mesure...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Temps de rendu</span>
+                        <span class="value" id="render-time">Mesure...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">Performance GPU</span>
+                        <span class="value" id="gpu-perf">Benchmark...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">SessionStorage</span>
+                        <span class="value" id="session-storage">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">LocalStorage</span>
+                        <span class="value" id="local-storage">Test...</span>
+                    </div>
+                    <div class="data-item loading">
+                        <span class="label">IndexedDB</span>
+                        <span class="value" id="indexed-db">Test...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fingerprint-section">
+            <h2>🔐 Votre Empreinte Numérique Unique</h2>
+            <div class="fingerprint-display">
+                <code id="fingerprint-hash">Génération de l'empreinte en cours...</code>
+            </div>
+            <p class="fingerprint-info">
+                Cette empreinte est calculée à partir de <span id="fp-points">0</span> paramètres uniques de votre navigateur.
+                Elle permet de vous identifier de manière quasi-certaine même sans cookies. (Précision: 99.9%)
+            </p>
+        </div>
+
+        <div class="education-section">
+            <h2>📚 Ce que cela signifie</h2>
+            <div class="info-cards">
+                <div class="info-card danger">
+                    <h3>⚠️ Risques</h3>
+                    <ul>
+                        <li>Tracking persistant sans cookies</li>
+                        <li>Profilage publicitaire avancé</li>
+                        <li>Détection de fraude (mais aussi surveillance)</li>
+                        <li>Corrélation entre appareils</li>
+                    </ul>
+                </div>
+                <div class="info-card success">
+                    <h3>✅ Protection</h3>
+                    <ul>
+                        <li>Utilisez Tor Browser ou Brave</li>
+                        <li>Extensions anti-fingerprinting</li>
+                        <li>VPN de confiance</li>
+                        <li>Désactivez JavaScript sur sites sensibles</li>
+                        <li>Nettoyez régulièrement vos données</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>PoC réalisé à des fins éducatives par <strong>Mehdi</strong></p>
+            <p class="disclaimer">⚡ Aucune donnée n'est stockée ou transmise - Tout reste dans votre navigateur</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/mehdi-le-deaut-b3a802211/" target="_blank">LinkedIn</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="fingerprint.js"></script>
+</body>
+</html>
